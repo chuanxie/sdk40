@@ -8,6 +8,11 @@ export type BottomTabParamList = {
   TabTwo: undefined;
 };
 
+export type RootDrawerParamList = {
+  Root: undefined;
+  NotFound: undefined;
+}
+
 export type TabOneParamList = {
   TabOneScreen: undefined;
 };

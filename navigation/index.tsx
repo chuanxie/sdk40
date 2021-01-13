@@ -1,5 +1,14 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+  DrawerContentComponentProps,
+  DrawerContentOptions,
+  DrawerNavigationProp,
+} from '@react-navigation/drawer';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
@@ -20,15 +29,27 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
+const CustomDrawerContent = (
+  props: DrawerContentComponentProps<DrawerContentOptions>,
+) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem label="Logout" onPress={() => logout()} />
+    </DrawerContentScrollView>
+  );
+};
+
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-    </Stack.Navigator>
+    <Drawer.Navigator screenOptions={{ headerShown: false }} drawerContent={props => CustomDrawerContent(props)}>
+      <Drawer.Screen name="Root" component={BottomTabNavigator} />
+      <Drawer.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </Drawer.Navigator>
   );
 }
